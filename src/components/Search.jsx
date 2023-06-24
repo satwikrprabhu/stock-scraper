@@ -12,7 +12,7 @@ export default function Search() {
 		window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 		const recognition = new SpeechRecognition();
 		recognition.interimResults = true;
-		// recognition = 'en';
+		// recognition.lang = 'en';
 
 		recognition.addEventListener('result', (e) => {
 			const voiceList = Array.from(e.results)
@@ -67,7 +67,7 @@ export default function Search() {
 			<div id="stock-details">
 				{QueryResults.length > 0 && QueryResults.map((element, index) => {
 					return (
-						<div>
+						<div key={index}>
 							<a href={element.link}>{element.stockName}</a>
 							{element.link ? null : fillDetails(element)}
 							<br />
