@@ -106,8 +106,8 @@ export default function Search() {
                 {
                     queryResults.length === 0 
                     ? 'empty list'
-                    : queryResults.map(({stockName}) => {
-                        return <p key={stockName}>{stockName}</p>
+                    : queryResults.map((val, idx) => {
+                        return <p key={idx}>{val?.stockName || val.Stock_Name}</p>
                     })
                 }
             </div>

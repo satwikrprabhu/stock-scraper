@@ -8,7 +8,7 @@ const Home = () => {
       <h1 className="text-5xl font-semibold   text-left">Unleash the 
       </h1>
       <h1 className="text-5xl text-white font-semibold text-left">Power of Speech</h1></div>
-      <Search2 />
+      <Search />
       <div className="flex flex-row justify-between md:justify-evenly text-xl mx-4 mt-20">
         <div className="border border-white p-4 rounded-xl">Nifty50</div>
         <div className="border border-white p-4 rounded-xl">Sensex</div>
