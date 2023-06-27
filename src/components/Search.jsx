@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useCallback, useState } from "react"
 import axios from "axios";
+import debounce from "@/utils/debounce";
 
 export default function Search() {
 
@@ -9,7 +10,7 @@ export default function Search() {
     const [lang, setLang] = useState('en');
     const [queryResults, setQueryResults] = useState([]);
     const [placeholder, setPlaceholder] = useState('loading');
-    
+
     useEffect(() => {
 
         const MIMEtype = "audio/webm";
@@ -74,28 +75,40 @@ export default function Search() {
 
     useEffect(() => {
         if(transcript !== '') {
-            axios.post("/api/getStockLink", { name: transcript })
-                .then(data => {
-                    if(data.status === 200) {
-                        setQueryResults(data.data.data);
-                    } else {
-                        setQueryResults([]);
-                    }
-                    // properly check the err
-                })
-                .catch(err => {
-                    setQueryResults([]);
-                    console.log(err);
-                })
+            //callLink(transcript);
+            debounce(callList(transcript));
         }
     }, [transcript]);
+
+    //const callLink = useCallback(
+    //    (passedTranscript) => {
+    //        debounce(callList(passedTranscript));
+    //    }
+    //, []);
+
+    const callList = (name) => {
+        if(name === '' || name.length < 3) return; 
+        axios.post("/api/getStockLink", { name })
+            .then(data => {
+                if (data.status === 200) {
+                    setQueryResults(data.data.data);
+                } else {
+                    setQueryResults([]);
+                }
+                // properly check the err
+            })
+            .catch(err => {
+                setQueryResults([]);
+                console.log(err);
+            });
+        }
 
     return (
         <>
             <div className="flex justify-center items-center mt-20">
                 <form id="search-form" className="flex justify-center md:justify-between">
                     <input type="text" id="search-bar" className="px-4 py-3 text-black text-2xl rounded-lg" value={transcript}
-                        placeholder={placeholder}
+                        placeholder={placeholder} onChange={(e) => setTranscript(e.target.value)}
                     />
                     <button className="p-2 text-xl rounded-xl bg-slate-300 ml-2 font-bold">🚀</button>
                 </form>
