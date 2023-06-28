@@ -1,30 +1,32 @@
 'use client'
 
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useCallback, useState } from "react"
 import axios from "axios";
+import debounce from "@/utils/debounce";
 
 export default function Search() {
-	const [transcript, setTranscript] = useState('');
+    const [transcript, setTranscript] = useState('');
     const [lang, setLang] = useState('en');
     const [queryResults, setQueryResults] = useState([]);
     const [placeholder, setPlaceholder] = useState('loading');
 
-	useEffect(() => {
-		const MIMEtype = "audio/webm";
+    useEffect(() => {
 
-        const webSocketURL = 
+        const MIMEtype = "audio/webm";
+
+        const webSocketURL =
             lang === 'en'
-            ? 'wss://api.deepgram.com/v1/listen?model=nova'
-            : `wss://api.deepgram.com/v1/listen?model=base&language=${lang}`;
+                ? 'wss://api.deepgram.com/v1/listen?model=nova'
+                : `wss://api.deepgram.com/v1/listen?model=base&language=${lang}`;
 
         const webSocket = new WebSocket(webSocketURL, [
-           "token",
-           process.env.NEXT_PUBLIC_SPEECH_KEY
+            "token",
+            process.env.NEXT_PUBLIC_SPEECH_KEY
         ]);
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then((stream) => {
-                if(!MediaRecorder.isTypeSupported(MIMEtype)) {
+                if (!MediaRecorder.isTypeSupported(MIMEtype)) {
                     // error audio not supported
                 }
 
@@ -36,7 +38,7 @@ export default function Search() {
                     console.log('[socket]: connetction success');
                     setPlaceholder('say something');
                     mediaRecorder.addEventListener('dataavailable', (event) => {
-                        if(webSocket.readyState === 1 && event.data.size) {
+                        if (webSocket.readyState === 1 && event.data.size) {
                             webSocket.send(event.data);
                         }
                     });
@@ -71,40 +73,65 @@ export default function Search() {
     }, [lang]);
 
     useEffect(() => {
-        if(transcript !== '') {
-            axios.post("/api/getStockLink", { name: transcript })
-                .then(data => {
-                    if(data.status === 200) {
-                        setQueryResults(data.data.data);
-                    } else {
-                        setQueryResults([]);
-                    }
-                    // properly check the err
-                })
-                .catch(err => {
-                    setQueryResults([]);
-                    console.log(err);
-                })
+        if (transcript !== '') {
+            //callLink(transcript);
+            debounce(callList(transcript));
         }
     }, [transcript]);
 
-	const fillDetails = (data) => {
-		let data_arr = [];
-		for (const key in data) {
-			data_arr.push(<div className="flex">
-				<p>{key}</p>
-				<p>{data[key]}</p>
-			</div>)
-		}
-		return data_arr;
-	}
+    const fillDetails = () => {
+        let data_arr = [];
+        if (queryResults.length === 1) {
+            for (const key in queryResults[0]) {
+                data_arr.push(
+                <div className="flex">
+                    <p>{key}</p>
+                    <p>{queryResults[0][key]}</p>
+                </div>)
+            }
+        } else {
+            queryResults.map((stock, index) => {
+                data_arr.push(
+                    <div key={index}>
+                        <a href={stock.link}>
+                            {stock.stockName}
+                        </a>
+                    </div>
+                )
+            })
+        }
+        return data_arr;
+
+    }
+    //const callLink = useCallback(
+    //    (passedTranscript) => {
+    //        debounce(callList(passedTranscript));
+    //    }
+    //, []);
+
+    const callList = (name) => {
+        if (name === '' || name.length < 3) return;
+        axios.post("/api/getStockLink", { name })
+            .then(data => {
+                if (data.status === 200) {
+                    setQueryResults(data.data.data);
+                } else {
+                    setQueryResults([]);
+                }
+                // properly check the err
+            })
+            .catch(err => {
+                setQueryResults([]);
+                console.log(err);
+            });
+    }
 
     return (
         <>
             <div className="flex justify-center items-center mt-20">
                 <form id="search-form" className="flex justify-center md:justify-between">
                     <input type="text" id="search-bar" className="px-4 py-3 text-black text-2xl rounded-lg" value={transcript}
-                        placeholder={placeholder}
+                        placeholder={placeholder} onChange={(e) => setTranscript(e.target.value)}
                     />
                     <button className="p-2 text-xl rounded-xl bg-slate-300 ml-2 font-bold">🚀</button>
                 </form>
@@ -113,9 +140,9 @@ export default function Search() {
                 <p>stock-scrape</p>
                 {console.log(queryResults)}
                 {
-                    queryResults.length === 0 
-                    ? 'empty list'
-                    : fillDetails(queryResults[0])
+                    queryResults.length === 0
+                        ? 'empty list'
+                        : fillDetails()
                 }
             </div>
         </>
