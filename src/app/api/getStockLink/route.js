@@ -8,7 +8,7 @@ export async function POST(req, res) {
         const req_body = await req.json()
         const namePattern = new RegExp(req_body.name, "gi");
 
-        const url = 'https://www.moneycontrol.com/india/stockpricequote/';
+        const url = process.env.SCRAPE_LOCATION;
         const response = await fetch(url);
         const body = await response.text();
         let $ = load(body);

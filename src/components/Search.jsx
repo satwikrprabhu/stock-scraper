@@ -5,7 +5,6 @@ import axios from "axios";
 import debounce from "@/utils/debounce";
 
 export default function Search() {
-
     const [transcript, setTranscript] = useState('');
     const [lang, setLang] = useState('en');
     const [queryResults, setQueryResults] = useState([]);
@@ -15,19 +14,19 @@ export default function Search() {
 
         const MIMEtype = "audio/webm";
 
-        const webSocketURL = 
+        const webSocketURL =
             lang === 'en'
-            ? 'wss://api.deepgram.com/v1/listen?model=nova'
-            : `wss://api.deepgram.com/v1/listen?model=base&language=${lang}`;
+                ? 'wss://api.deepgram.com/v1/listen?model=nova'
+                : `wss://api.deepgram.com/v1/listen?model=base&language=${lang}`;
 
         const webSocket = new WebSocket(webSocketURL, [
-           "token",
-           process.env.NEXT_PUBLIC_SPEECH_KEY
+            "token",
+            process.env.NEXT_PUBLIC_SPEECH_KEY
         ]);
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then((stream) => {
-                if(!MediaRecorder.isTypeSupported(MIMEtype)) {
+                if (!MediaRecorder.isTypeSupported(MIMEtype)) {
                     // error audio not supported
                 }
 
@@ -39,7 +38,7 @@ export default function Search() {
                     console.log('[socket]: connetction success');
                     setPlaceholder('say something');
                     mediaRecorder.addEventListener('dataavailable', (event) => {
-                        if(webSocket.readyState === 1 && event.data.size) {
+                        if (webSocket.readyState === 1 && event.data.size) {
                             webSocket.send(event.data);
                         }
                     });
@@ -74,12 +73,36 @@ export default function Search() {
     }, [lang]);
 
     useEffect(() => {
-        if(transcript !== '') {
+        if (transcript !== '') {
             //callLink(transcript);
             debounce(callList(transcript));
         }
     }, [transcript]);
 
+    const fillDetails = () => {
+        let data_arr = [];
+        if (queryResults.length === 1) {
+            for (const key in queryResults[0]) {
+                data_arr.push(
+                <div className="flex">
+                    <p>{key}</p>
+                    <p>{queryResults[0][key]}</p>
+                </div>)
+            }
+        } else {
+            queryResults.map((stock, index) => {
+                data_arr.push(
+                    <div key={index}>
+                        <a href={stock.link}>
+                            {stock.stockName}
+                        </a>
+                    </div>
+                )
+            })
+        }
+        return data_arr;
+
+    }
     //const callLink = useCallback(
     //    (passedTranscript) => {
     //        debounce(callList(passedTranscript));
@@ -87,7 +110,7 @@ export default function Search() {
     //, []);
 
     const callList = (name) => {
-        if(name === '' || name.length < 3) return; 
+        if (name === '' || name.length < 3) return;
         axios.post("/api/getStockLink", { name })
             .then(data => {
                 if (data.status === 200) {
@@ -101,7 +124,7 @@ export default function Search() {
                 setQueryResults([]);
                 console.log(err);
             });
-        }
+    }
 
     return (
         <>
@@ -117,11 +140,9 @@ export default function Search() {
                 <p>stock-scrape</p>
                 {console.log(queryResults)}
                 {
-                    queryResults.length === 0 
-                    ? 'empty list'
-                    : queryResults.map((val, idx) => {
-                        return <p key={idx}>{val?.stockName || val.Stock_Name}</p>
-                    })
+                    queryResults.length === 0
+                        ? 'empty list'
+                        : fillDetails()
                 }
             </div>
         </>
