@@ -4,7 +4,6 @@ const { NextResponse } = require('next/server')
 export async function POST(req, res) {
     try {
 
-
         const req_body = await req.json()
         const namePattern = new RegExp(req_body.name, "gi");
 

@@ -3,6 +3,7 @@
 import { useEffect, useCallback, useState } from "react"
 import axios from "axios";
 import debounce from "@/utils/debounce";
+import FillDetails from "./FillDetails";
 
 export default function Search() {
     const [transcript, setTranscript] = useState('');
@@ -73,58 +74,27 @@ export default function Search() {
     }, [lang]);
 
     useEffect(() => {
-        if (transcript !== '') {
-            //callLink(transcript);
-            debounce(callList(transcript));
-        }
+        if (transcript !== '' && transcript.length > 1)
+            callLink(transcript);
     }, [transcript]);
 
-    const fillDetails = () => {
-        let data_arr = [];
-        if (queryResults.length === 1) {
-            for (const key in queryResults[0]) {
-                data_arr.push(
-                <div className="flex">
-                    <p>{key}</p>
-                    <p>{queryResults[0][key]}</p>
-                </div>)
-            }
-        } else {
-            queryResults.map((stock, index) => {
-                data_arr.push(
-                    <div key={index}>
-                        <a href={stock.link}>
-                            {stock.stockName}
-                        </a>
-                    </div>
-                )
-            })
-        }
-        return data_arr;
-
-    }
-    //const callLink = useCallback(
-    //    (passedTranscript) => {
-    //        debounce(callList(passedTranscript));
-    //    }
-    //, []);
-
-    const callList = (name) => {
-        if (name === '' || name.length < 3) return;
-        axios.post("/api/getStockLink", { name })
-            .then(data => {
-                if (data.status === 200) {
-                    setQueryResults(data.data.data);
-                } else {
+    const callLink = useCallback(
+        debounce((name) => { 
+            axios.post("/api/getStockLink", { name })
+                .then(data => {
+                    if (data.status === 200) {
+                        setQueryResults(data.data.data);
+                    } else {
+                        setQueryResults([]);
+                    }
+                    // properly check the err
+                })
+                .catch(err => {
                     setQueryResults([]);
-                }
-                // properly check the err
+                    console.log(err);
+                });
             })
-            .catch(err => {
-                setQueryResults([]);
-                console.log(err);
-            });
-    }
+    , []);
 
     return (
         <>
@@ -138,12 +108,7 @@ export default function Search() {
             </div>
             <div id="stock-details">
                 <p>stock-scrape</p>
-                {console.log(queryResults)}
-                {
-                    queryResults.length === 0
-                        ? 'empty list'
-                        : fillDetails()
-                }
+                <FillDetails queryResults={queryResults}/>
             </div>
         </>
     )
