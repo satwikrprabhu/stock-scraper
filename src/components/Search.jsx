@@ -128,9 +128,9 @@ export default function Search() {
 
     return (
         <>
-            <div className="flex justify-center items-center mt-20">
-                <form id="search-form" className="flex justify-center md:justify-between">
-                    <input type="text" id="search-bar" className="px-4 py-3 text-black text-2xl rounded-lg" value={transcript}
+            <div className="px-8 mt-20">
+                <form id="search-form" className="flex flex-row justify-center">
+                    <input type="text" id="search-bar" className=" px-2 py-3 text-black text-2xl rounded-lg" value={transcript}
                         placeholder={placeholder} onChange={(e) => setTranscript(e.target.value)}
                     />
                     <button className="p-2 text-xl rounded-xl bg-slate-300 ml-2 font-bold">🚀</button>
