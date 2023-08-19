@@ -3,8 +3,8 @@ import Search from "@/components/Search"
 import { getIndexValues } from "./api/getIndexValues"
 import { getTrendingStocks } from "./api/getTrendingStocks"
 import { useEffect, useState } from "react"
-const Home = () => {
 
+const Home = () => {
   const [trendStocks,setTrendStock] = useState([]);
  useEffect(()=>{
   const fetchTrendStocks = async ()=>{
@@ -37,16 +37,18 @@ const Home = () => {
 },[]);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row justify-center bg-slate-950">
-      <div  className="lg:w-1/2 min-h-screen flex flex-col justify-center">
-      <div className="flex flex-col items-center justify-center pt-8 space-y-4">
-      <h1 className="text-5xl font-semibold mt-3 ">Welcome to 
-      </h1>
-      <h1 className="text-5xl text-white font-semibold italic">Speak Stocks</h1>
-      </div>
+   
+    <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-700 min-h-screen flex flex-col md:flex-row justify-center items-center">
+      <div className="min-h-screen flex flex-col justify-center">
+      <div className="flex flex-col items-center justify-center space-y-7">
+      <h1 className="text-5xl md:text-6xl text-white font-bold italic">Speak Stocks</h1>
       <Search />
-      <div className="flex flex-col md:flex-row  justify-between md:justify-center  m-1 mx-4 md:mx-0 gap-7 text-base">
+      </div>
     {/* Indices */}
+      {/* <div className="flex flex-col md:flex-row  justify-between md:justify-center  m-1 mx-4 md:mx-0 gap-7 text-base">
+
+
+
       <div className="border border-gray-300 p-3 rounded-md text-center" style={{color: indexValues.Nifty50Change > 0 ? '#03fc0b' : '#b30000'}}>
   <span className="font-bold text-white">Nifty50:&nbsp;</span>
   {indexValues.Nifty50}&nbsp;
@@ -63,8 +65,9 @@ const Home = () => {
   ({indexValues.NiftyBankChange > 0?"+":""}{indexValues.NiftyBankChange}%)
 </div>
 
-      </div></div>
-      <div className="lg:w-1/2 min-h-screen px-8 flex flex-col justify-center">
+      </div> */}
+      </div>
+      {/* <div className="lg:w-1/2 min-h-screen px-8 flex flex-col justify-center">
         <h1 className="text-4xl font-semibold text-center">Trending Stocks</h1>
         <div className="flex flex-col text-center mt-16 space-y-10 border">
           <div className="flex flex-row justify-around">
@@ -83,7 +86,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

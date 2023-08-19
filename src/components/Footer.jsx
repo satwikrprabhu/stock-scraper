@@ -14,7 +14,7 @@ const Footer = () => {
       },
       ];
   return (
-    <footer className='bg-gray-900  font-Poppins'>
+    <footer className='bg-gradient-to-r from-gray-800 via-slate-800 to-slate-700 font-Poppins'>
     <div className='text-center w-full py-8 font-semibold bottom-0'>
       <h1 className="text-white mb-6">SpeakStocks</h1>
       <p className="text-white mb-6">&copy;Inspirante Technologies</p>

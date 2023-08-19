@@ -3,7 +3,6 @@
 import { useEffect, useCallback, useState } from "react"
 import axios from "axios";
 import debounce from "@/utils/debounce";
-
 export default function Search() {
     const [transcript, setTranscript] = useState('');
     const [lang, setLang] = useState('en');
@@ -128,20 +127,22 @@ export default function Search() {
 
     return (
         <>
-            <div className="px-8 mt-20">
-                <form id="search-form" className="flex flex-row justify-center">
-                    <input type="text" id="search-bar" className=" px-2 py-3 text-black text-2xl rounded-lg" value={transcript}
-                        placeholder={placeholder} onChange={(e) => setTranscript(e.target.value)}
-                    />
-                    <button className="p-2 text-xl rounded-xl bg-slate-300 ml-2 font-bold">🚀</button>
-                </form>
-            </div>
+          <div id="search-form" className="flex items-center gap-3 rounded-lg bg-white bg-opacity-5 p-3 dark:bg-opacity-20 sm:px-7 sm:py-2.5">
+            <input id="search-bar" 
+              className="w-full bg-transparent text-lg border-none outline-none"
+              value={transcript}
+              placeholder={placeholder} 
+              onChange={(e) => setTranscript(e.target.value)}
+            /> 
+            <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            
+          </div>
+
             <div id="stock-details">
-                <p>stock-scrape</p>
                 {console.log(queryResults)}
                 {
                     queryResults.length === 0
-                        ? 'empty list'
+                        ? ''
                         : fillDetails()
                 }
             </div>
