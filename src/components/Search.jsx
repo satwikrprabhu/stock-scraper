@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useState } from "react"
 import axios from "axios";
 import debounce from "@/utils/debounce";
-export default function Search() {
+export default function Search({setStockResults}) {
     const [transcript, setTranscript] = useState('');
     const [lang, setLang] = useState('en');
     const [queryResults, setQueryResults] = useState([]);
@@ -81,6 +81,7 @@ export default function Search() {
     const fillDetails = () => {
         let data_arr = [];
         if (queryResults.length === 1) {
+            fetchResults();
             for (const key in queryResults[0]) {
                 data_arr.push(
                 <div className="flex">
@@ -125,18 +126,24 @@ export default function Search() {
             });
     }
 
+
+    const fetchResults =  () => {
+        setStockResults(...queryResults);
+      };
+
+
     return (
         <>
           <div id="search-form" className="flex items-center gap-3 rounded-lg bg-white bg-opacity-5 p-3 dark:bg-opacity-20 sm:px-7 sm:py-2.5">
             <input id="search-bar" 
-              className="w-full bg-transparent text-lg border-none outline-none"
+              className="w-full text-gray-200 focus:text-gray-200 bg-transparent text-lg border-none outline-none"
               value={transcript}
               placeholder={placeholder} 
-              onChange={(e) => setTranscript(e.target.value)}
+              onChange={(e)=>setTranscript(e.target.value)}
             /> 
             <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            
           </div>
+
 
             <div id="stock-details">
                 {console.log(queryResults)}

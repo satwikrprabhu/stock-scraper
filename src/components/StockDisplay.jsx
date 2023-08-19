@@ -1,12 +1,8 @@
-
 import React from 'react'
 
-
-
-
-const StockDisplay = () => {
+const StockDisplay = ({stock}) => {
   return (
-    <div>StockDisplay</div>
+    <div>{stock.Stock_Name}</div>
   )
 }
 
