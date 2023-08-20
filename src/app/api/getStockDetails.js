@@ -42,7 +42,7 @@ const getDetailsByStockName = async (url) => {
             "52_Week_Low": weekLPrice.innerHTML,
             "52_Week_High": weekHPrice.text(),
             Volume: volume.text(),
-            "Market Cap(Rs. Cr)": marketCap.text(),
+            "MarketCap": marketCap.text(),
             Dividend_Yield: dividendYield.text()
         }
         return details;
