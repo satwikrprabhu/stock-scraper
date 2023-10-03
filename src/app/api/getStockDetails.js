@@ -6,10 +6,10 @@ const getDetailsByStockName = async (url) => {
         const page = await result.text();
         const $ = load(page)
         console.log(url);
-        const headTitle = $(".inid_name h1")
+        const headTitle = $(".inid_name h1")  
         const sectorTitle = $(".inid_name span strong")
-
-        const grabStockPrice = $('.inprice1.nsecp');
+        const ticker = $(`.comp_inf > li:nth-child(5) > ul:nth-child(2) > li:nth-child(2) > p:nth-child(2)`)
+        const grabStockPrice = $('.inprice1.nsecp'); 
         const stockValue = grabStockPrice.attr("rel");
         const change = $(".pricupdn.nsechange")
 
@@ -33,6 +33,7 @@ const getDetailsByStockName = async (url) => {
             Stock_Name: headTitle.text(),
             Sector: sectorTitle.text(),
             Stock_Price: stockValue,
+            Ticker: ticker.text(),
             Price_Change: change.text(),
             date: currentDateTime.text(),
             Previous_Close: previousClose.text(),
