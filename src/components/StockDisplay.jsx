@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Table from './Table'
+import Candlestick from './CandleStick'
 import Breadcrumbs from './Breadcrumbs'
 const StockDisplay = ({stock}) => {
   return (
@@ -17,7 +18,8 @@ const StockDisplay = ({stock}) => {
 </span>
 </h2>
 <h3 className='bg-gradient-to-r from-slate-400 to-gray-600 bg-clip-text text-transparent font-semibold text-xs'>{stock.date}</h3>
-<div className='flex flex-row justify-center md:justify-end'>
+<div className='flex flex-row md:justify-between'>
+<Candlestick />
 <Table stocks={stock} /></div>
     </div>
   )
