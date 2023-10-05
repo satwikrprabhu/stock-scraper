@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Table from './Table'
-import Candlestick from './CandleStick'
+import Candlestick from './Candlestick'
 import Breadcrumbs from './Breadcrumbs'
 const StockDisplay = ({stock}) => {
   return (
