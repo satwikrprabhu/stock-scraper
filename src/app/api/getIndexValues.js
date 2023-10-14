@@ -1,5 +1,4 @@
 const { load } = require('cheerio');
-
 const getIndexValues = async () => {
     try {
         const result = await fetch("https://www.moneycontrol.com/technicals/gapup/nse/index.html/markets/indian-indices/?classic=true");
@@ -13,7 +12,6 @@ const getIndexValues = async () => {
         const niftybankchange =$("table.tbldata14:nth-child(48) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4)")
         console.log("https://www.moneycontrol.com/");
        
-
         console.log(sensex.text());
         console.log(sensexchange.text());
         console.log(nifty50.text());
