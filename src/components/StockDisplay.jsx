@@ -14,7 +14,7 @@ const StockDisplay = ({stock}) => {
     async function fetchData() {
       try {
         const response = await axios.get("/api/prediction");
-        setPrediction(response.data.prediction);
+        setPrediction(response.data.data);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -45,4 +45,3 @@ const StockDisplay = ({stock}) => {
 }
 
 export default StockDisplay
->>>>>>> c7e79ec474d30317e69d2f203f84a08ddb8b33a0
