@@ -6,10 +6,12 @@ const exec = util.promisify(require("child_process").exec);
 
 export async function POST(req, res) {
 	try {
-		body = req.json();
-		//There is ticker value in the req.body
-		//call the python script here
-		return NextResponse.json({ message: "works", data: body.ticker });
+		const body = await req.json();
+		console.log(body);
+		const command = "python ai.py " + body.ticker 
+		console.log(command)
+		const result = await exec(command)
+		return NextResponse.json({ message: "works", data: result.stdout});
 	}
 	catch (error) {
 		console.log(error)

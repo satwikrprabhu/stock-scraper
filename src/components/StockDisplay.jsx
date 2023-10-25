@@ -11,17 +11,14 @@ const StockDisplay = ({stock}) => {
   const [Prediction, setPrediction] = useState("Loading....");
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.post("/api/prediction", {ticker:stock.Ticker});
-        setPrediction(response.data.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
+        axios.post("/api/prediction", {ticker:stock.Ticker})
+      .then(res=>{
+        console.log(res.data.data)
+        setPrediction(res.data.data)
+    }).catch(err=>{
+        console.error(err)
+      })
+  }, [stock.Ticker]);
   return (
     <div className='min-h-screen w-full flex flex-col mt-8 px-8 pt-20'>
       <Breadcrumbs stockName={stock.Stock_Name}/>
@@ -38,7 +35,7 @@ const StockDisplay = ({stock}) => {
 <h3 className='bg-gradient-to-r from-slate-400 to-gray-600 bg-clip-text text-transparent font-semibold text-xs'>{stock.date}</h3>
 <div className="text-white text-3xl">{Prediction}</div>
 <div className='flex flex-row md:justify-between'>
-<Candlestick />
+<Candlestick ticker={stock.Ticker}/>
 <Table stocks={stock} /></div>
     </div>
   )
