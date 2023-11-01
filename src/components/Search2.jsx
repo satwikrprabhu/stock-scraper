@@ -5,10 +5,26 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 import debounce from "@/utils/debounce";
 
-var webSocket;
-var globalMic;
+var websocket;
+var globalMic = true;
 
 export default function Search({ setStockResults }) {
+
+    const voiceMessages = {
+        micActiveMessage: 'say something',
+        typeAheadMessage: 'type in your search'
+    }
+
+    const turnOnMic = () => {
+        websocket = true;
+        console.log(`turned on : ${websocket}`);
+    }
+    turnOnMic();
+
+    const turnOffMic = () => {
+        websocket = false;
+        console.log(`turned off : ${websocket}`);
+    }
 
     const [transcript, setTranscript] = useState('');
     const [lang, setLang] = useState('en');
@@ -17,7 +33,6 @@ export default function Search({ setStockResults }) {
     const [micActive, setMicActive] = useState(true);
 
     useEffect(() => {
-        // onchange
         const MIMEtype = "audio/webm";
 
         const webSocketURL =
@@ -25,7 +40,7 @@ export default function Search({ setStockResults }) {
                 ? 'wss://api.deepgram.com/v1/listen?model=nova'
                 : `wss://api.deepgram.com/v1/listen?model=base&language=${lang}`;
 
-        webSocket = new WebSocket(webSocketURL, [
+        const webSocket = new WebSocket(webSocketURL, [
             "token",
             process.env.NEXT_PUBLIC_SPEECH_KEY
         ]);
@@ -52,11 +67,11 @@ export default function Search({ setStockResults }) {
                 });
 
                 webSocket.addEventListener('message', (message) => {
-                    console.log('[socket]: message received', micActive);
+                    console.log('[socket]: message received', globalMic);
                     const received = message && JSON.parse(message?.data);
                     const result = received.channel?.alternatives[0].transcript;
                     setTranscript((prevState) => {
-                        if (micActive)
+                        if (globalMic)
                             return result === '' ? prevState : result
                     });
                 });
@@ -91,15 +106,14 @@ export default function Search({ setStockResults }) {
     useEffect(() => {
         // set mic status
         globalMic = micActive;
-        console.log(`[mic status] : ${micActive}`);
         if (!micActive) {
-            webSocket.close();
+            // webSocket.close();
+            turnOffMic();
             setPlaceholder('type in your search');
         } else {
-            console.log('micActive', micActive);
-            setPlaceholder('say saysomething');
+            turnOnMic();
+            setPlaceholder('say something');
         }
-
     }, [micActive])
 
     const fillDetails = () => {
@@ -134,7 +148,8 @@ export default function Search({ setStockResults }) {
     //, []);
 
     const callList = (name) => {
-        if (name === '' || name.length < 3) return;
+        if (name === undefined || name === '' || name.length < 3) return;
+        console.log("[data]: ", name);
         axios.post("/api/getStockLink", { name })
             .then(data => {
                 if (data.status === 200) {
