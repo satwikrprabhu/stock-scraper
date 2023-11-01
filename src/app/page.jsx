@@ -1,5 +1,5 @@
 'use client'
-import Search from "@/components/Search"
+import Search from "@/components/Search2"
 // import { getIndexValues } from "./api/getIndexValues"
 // import { getTrendingStocks } from "./api/getTrendingStocks"
 import { useEffect, useState } from "react"
@@ -7,46 +7,46 @@ import StockDisplay from "@/components/StockDisplay"
 
 const Home = () => {
   // const [trendStocks,setTrendStock] = useState([]);
-  const [stockResults,setStockResults] = useState(false);
+  const [stockResults, setStockResults] = useState(false);
 
-//   useEffect(()=>{
-//   const fetchTrendStocks = async ()=>{
-//     try{
-//       const trendValues = await getTrendingStocks()
-//       setTrendStock(trendValues)
-//       console.log(trendStocks)
-//     }
-//     catch(err){
-//       console.log(err)
-//     }
-//   };
-//   fetchTrendStocks();
-//  },[]);
+  //   useEffect(()=>{
+  //   const fetchTrendStocks = async ()=>{
+  //     try{
+  //       const trendValues = await getTrendingStocks()
+  //       setTrendStock(trendValues)
+  //       console.log(trendStocks)
+  //     }
+  //     catch(err){
+  //       console.log(err)
+  //     }
+  //   };
+  //   fetchTrendStocks();
+  //  },[]);
   //Get Index Values
   // const [indexValues,setIndexValues] = useState([]);
-//   useEffect(()=>{
-//   const fetchIndexValues = async ()=>{
-//     try{
-//       const values = await getIndexValues();
-//       setIndexValues(values);
-//     }catch(err){
-//       console.log(err);
-//     }
-//   };
-//   fetchIndexValues();
+  //   useEffect(()=>{
+  //   const fetchIndexValues = async ()=>{
+  //     try{
+  //       const values = await getIndexValues();
+  //       setIndexValues(values);
+  //     }catch(err){
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchIndexValues();
 
-// },[]);
+  // },[]);
 
   return (
-   
+
     <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-700 min-h-screen flex flex-col justify-center items-center">
       <div className="w-full flex flex-col items-center justify-center space-y-7">
-      {!stockResults && <h1 className="text-5xl md:text-6xl bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent font-bold italic">Speak Stocks</h1>}
-      {!stockResults? <Search setStockResults={setStockResults}/>:<StockDisplay stock={stockResults}/> }
+        {!stockResults && <h1 className="text-5xl md:text-6xl bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent font-bold italic">Speak Stocks</h1>}
+        {!stockResults ? <Search setStockResults={setStockResults} /> : <StockDisplay stock={stockResults} />}
       </div>
-      
 
-    {/* Indices */}
+
+      {/* Indices */}
       {/* <div className="flex flex-col md:flex-row  justify-between md:justify-center  m-1 mx-4 md:mx-0 gap-7 text-base">
       <div className="border border-gray-300 p-3 rounded-md text-center" style={{color: indexValues.Nifty50Change > 0 ? '#03fc0b' : '#b30000'}}>
   <span className="font-bold text-white">Nifty50:&nbsp;</span>
@@ -64,7 +64,7 @@ const Home = () => {
   ({indexValues.NiftyBankChange > 0?"+":""}{indexValues.NiftyBankChange}%)
 </div>
       </div> */}
-     
+
       {/* <div className="lg:w-1/2 min-h-screen px-8 flex flex-col justify-center">
         <h1 className="text-4xl font-semibold text-center">Trending Stocks</h1>
         <div className="flex flex-col text-center mt-16 space-y-10 border">
