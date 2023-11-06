@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { render } from "react-dom";
 
 export default function Chart({ stockName }) {
     const [chartData, setChartData] = useState([]);
