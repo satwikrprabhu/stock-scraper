@@ -43,7 +43,7 @@ const StockDisplay = ({stock}) => {
 <h1 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent font-bold text-2xl'>AI Prediction</h1>
 <p className='text-white'>(This prediction may not be accurate)</p>
 {/* <h2 className='text-white text-3xl'>{Prediction}</h2> */}
-<h2 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent text-3xl font-bold'>2321.14</h2>
+<h2 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent text-3xl font-bold'>{Prediction}</h2>
 </div>  
       </div>
         </div>
