@@ -11,13 +11,16 @@ const StockDisplay = ({stock}) => {
   const [Prediction, setPrediction] = useState("Loading....");
 
   useEffect(() => {
-        axios.post("/api/prediction", {ticker:stock.Ticker})
-      .then(res=>{
-        console.log(res.data.data)
-        setPrediction(res.data.data)
-    }).catch(err=>{
-        console.error(err)
+    axios
+      .post("/api/prediction", { ticker: stock.Ticker })
+      .then((res) => {
+        console.log(res.data.data);
+        setPrediction(res.data.data);
       })
+      .catch((err) => {
+        const errmessage = "Unable to Fetch Predictions"
+        setPrediction(errmessage)
+      });
   }, [stock.Ticker]);
   return (
     <div className='min-h-screen w-full flex flex-col mt-8 px-8 pt-20'>
