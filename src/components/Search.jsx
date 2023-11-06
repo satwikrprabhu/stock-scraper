@@ -116,10 +116,9 @@ export default function Search({ setStockResults }) {
         } else {
             queryResults.map((stock, index) => {
                 data_arr.push(
-                    <div key={index}>
-                        <a href={stock.link}>
+                    <div key={index} className="text-white"> <button onClick={(e)=>console.log(e.target.value)}  className="text-white">
                             {stock.stockName}
-                        </a>
+                        </button>
                     </div>
                 )
             })
