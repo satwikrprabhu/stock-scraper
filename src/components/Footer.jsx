@@ -20,7 +20,7 @@ const Footer = () => {
       <p className="text-white mb-6">&copy;Inspirante Technologies</p>
       {/* <p className="text-white mb-6 text-center">Made with ❤️ by </p> */}
       <ul className='flex items-center justify-center space-x-20  text-white'>
-        {links.map((link)=><li>{link.linkname}</li>)}
+        {links.map((link)=><li key={link.linkname}>{link.linkname}</li>)}
       </ul>
     </div>
     </footer>

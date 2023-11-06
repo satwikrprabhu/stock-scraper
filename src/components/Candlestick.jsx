@@ -31,10 +31,10 @@ export default function Candlestick({ticker}) {
 				setChartData(temp);
 				console.log(temp);
 			});
-	}, []);
+	}, [ticker]);
 
 	return (
-		<div className="bg-white text-white">
+		<div className="text-white">
 			{typeof window !== "undefined" && ChartData.length > 0 && (
 				<Chart
 					options={{
@@ -49,8 +49,8 @@ export default function Candlestick({ticker}) {
 					}}
 					series={[{ data: ChartData }]}
 					type="candlestick"
-					width={1024}
-					height={512}
+					width={800}
+					height={300}
 				/>
 			)}
 		</div>

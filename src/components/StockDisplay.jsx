@@ -32,10 +32,11 @@ const StockDisplay = ({stock}) => {
   ₹ {stock.Price_Change}
 </span>
 </h2>
-<h3 className='bg-gradient-to-r from-slate-400 to-gray-600 bg-clip-text text-transparent font-semibold text-xs'>{stock.date}</h3>
-<div className="text-white text-3xl">{Prediction}</div>
+<h3 className='bg-gradient-to-r from-slate-400 to-gray-600 bg-clip-text text-transparent font-semibold text-xs mb-12'>{stock.date}</h3>
 <div className='flex flex-row md:justify-between'>
 <Candlestick ticker={stock.Ticker}/>
+<div className="text-white text-3xl">{Prediction}</div>
+
 <Table stocks={stock} /></div>
     </div>
   )
