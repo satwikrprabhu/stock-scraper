@@ -34,7 +34,7 @@ export default function Candlestick({ticker}) {
 	}, [ticker]);
 
 	return (
-		<div className="text-white">
+		<div className="text-black">
 			{typeof window !== "undefined" && ChartData.length > 0 && (
 				<Chart
 					options={{
