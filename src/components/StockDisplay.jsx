@@ -11,13 +11,16 @@ const StockDisplay = ({stock}) => {
   const [Prediction, setPrediction] = useState("Loading....");
 
   useEffect(() => {
-        axios.post("/api/prediction", {ticker:stock.Ticker})
-      .then(res=>{
-        console.log(res.data.data)
-        setPrediction(res.data.data)
-    }).catch(err=>{
-        console.error(err)
+    axios
+      .post("/api/prediction", { ticker: stock.Ticker })
+      .then((res) => {
+        console.log(res.data.data);
+        setPrediction(res.data.data);
       })
+      .catch((err) => {
+        const errmessage = "Unable to Fetch Predictions"
+        setPrediction(errmessage)
+      });
   }, [stock.Ticker]);
   return (
     <div className='min-h-screen w-full flex flex-col mt-8 px-8 pt-20'>
@@ -39,8 +42,8 @@ const StockDisplay = ({stock}) => {
       </div>
       <div>
 
-<div className='backdrop-blur-lg rounded-xl justify-between  text-center mt-10 p-6 border-gray-600 border'>
-<h1 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent font-bold text-4xl'>AI Prediction</h1>
+<div className='backdrop-blur-lg rounded-xl justify-between  text-center bg-gradient-to-br from-slate-00 via-slate-800 to-gray-800 mt-10 p-5'>
+<h1 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent font-bold text-2xl'>AI Prediction</h1>
 <p className='text-white'>(This prediction may not be accurate)</p>
 {/* <h2 className='text-white text-3xl'>{Prediction}</h2> */}
 <h2 className='bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent text-3xl font-bold'>{Prediction}</h2>
