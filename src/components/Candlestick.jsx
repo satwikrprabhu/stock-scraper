@@ -1,22 +1,32 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import axios from "axios";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export default function Candlestick({ticker}) {
+export default function Candlestick({ ticker }) {
 	const [ChartData, setChartData] = useState([]);
-	const options = {};
+	const [ChartType, setChartType] = useState([]);
+
 	useEffect(() => {
 		axios
 			.get(
-				`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}.BSE&outputsize=full&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
+				`https://www.alphavantage.co/query?function=${ChartType}${
+					ChartType === "TIME_SERIES_INTRADAY" ? "&interval=5min" : ""
+				}&symbol=${ticker}${
+					ChartType === "TIME_SERIES_DAILY" ? ".BSE" : ""
+				}&outputsize=full&apikey=${process.env.NEXT_PUBLIC_API_KEY}`
 			)
 			.then((res) => {
 				console.log(res);
-				const data = res.data["Time Series (Daily)"];
-				const plotKeys = Object.keys(data).slice(0, 100);
-				const plotValues = Object.values(data).slice(0, 100);
+				const data =
+					ChartType === "TIME_SERIES_DAILY"
+						? res.data["Time Series (Daily)"]
+						: res.data["Time Series (5min)"];
+				const plotKeys = Object?.keys(data).slice(0, 100)?.reverse();
+				const plotValues = Object?.values(data)
+					.slice(0, 100)
+					?.reverse();
 
 				console.log(plotKeys);
 				console.log(plotValues);
@@ -31,10 +41,19 @@ export default function Candlestick({ticker}) {
 				setChartData(temp);
 				console.log(temp);
 			});
-	}, [ticker]);
+	}, [ticker, ChartType]);
 
 	return (
-		<div className="text-white">
+		<div className="text-black">
+			<select
+		className="rounded active:border-none bg-gradient-to-r from-slate-400 to-gray-600 bg-transparent text-white font-semibold text-center"
+				onChange={(e) => {
+					setChartType(e.target.value);
+				}}
+			>
+				<option value={"TIME_SERIES_DAILY"}>Daily</option>
+				<option value={"TIME_SERIES_INTRADAY"}>Intraday</option>
+			</select>
 			{typeof window !== "undefined" && ChartData.length > 0 && (
 				<Chart
 					options={{
@@ -46,6 +65,21 @@ export default function Candlestick({ticker}) {
 							shadeTo: "light",
 							shadeIntensity: 1,
 						},
+						xaxis:{
+							labels:{
+								style:{
+									colors:"grey"
+								}
+							}
+						},
+							yaxis:{
+								labels:{
+									style:{
+										colors:"grey"
+									}
+								}
+							}
+							
 					}}
 					series={[{ data: ChartData }]}
 					type="candlestick"
