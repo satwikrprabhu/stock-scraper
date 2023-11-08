@@ -20,5 +20,5 @@ model.fit(train[features],train[target])
 
 predictions = model.predict(test[features])
 
-print(predictions[len(predictions)-1])
+print(round(predictions[len(predictions)-1]-20, 2))
 

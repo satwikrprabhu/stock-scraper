@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import debounce from "@/utils/debounce";
-
+import {BsFillMicFill, BsFillMicMuteFill} from 'react-icons/bs'
 var websocket;
 var globalMic = true;
 
@@ -197,19 +197,13 @@ export default function Search({ setStockResults }) {
 				/>
 
 				{micActive ? (
-					<Image
-						src="/icons/mic.png"
-						width={25}
-						height={25}
-						alt="mic"
-						onClick={(e) => setMicActive(false)}
-					/>
+					
+					<BsFillMicFill 
+					className="text-gray-500 text-xl"
+					onClick={(e) => setMicActive(false)} />
 				) : (
-					<Image
-						src="/icons/mute.png"
-						width={25}
-						height={25}
-						alt="mute"
+					<BsFillMicMuteFill 
+					className="text-gray-500 text-xl"
 						onClick={(e) => setMicActive(true)}
 					/>
 				)}
