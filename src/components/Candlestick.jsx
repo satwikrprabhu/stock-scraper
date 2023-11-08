@@ -23,10 +23,12 @@ export default function Candlestick({ ticker }) {
 					ChartType === "TIME_SERIES_DAILY"
 						? res.data["Time Series (Daily)"]
 						: res.data["Time Series (5min)"];
-				const plotKeys = Object?.keys(data).slice(0, 100)?.reverse();
-				const plotValues = Object?.values(data)
-					.slice(0, 100)
-					?.reverse();
+				const plotKeys = data
+					? Object?.keys(data).slice(0, 100)?.reverse()
+					: [];
+				const plotValues = data
+					? Object?.values(data)
+					: [].slice(0, 100)?.reverse();
 
 				console.log(plotKeys);
 				console.log(plotValues);
@@ -46,7 +48,7 @@ export default function Candlestick({ ticker }) {
 	return (
 		<div className="text-black">
 			<select
-		className="rounded active:border-none bg-gradient-to-r from-slate-400 to-gray-600 bg-transparent text-white font-semibold text-center"
+				className="rounded active:border-none bg-gradient-to-r from-slate-400 to-gray-600 bg-transparent text-white font-semibold text-center"
 				onChange={(e) => {
 					setChartType(e.target.value);
 				}}
@@ -65,21 +67,20 @@ export default function Candlestick({ ticker }) {
 							shadeTo: "light",
 							shadeIntensity: 1,
 						},
-						xaxis:{
-							labels:{
-								style:{
-									colors:"grey"
-								}
-							}
+						xaxis: {
+							labels: {
+								style: {
+									colors: "grey",
+								},
+							},
 						},
-							yaxis:{
-								labels:{
-									style:{
-										colors:"grey"
-									}
-								}
-							}
-							
+						yaxis: {
+							labels: {
+								style: {
+									colors: "grey",
+								},
+							},
+						},
 					}}
 					series={[{ data: ChartData }]}
 					type="candlestick"
