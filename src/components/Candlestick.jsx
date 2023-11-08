@@ -6,7 +6,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Candlestick({ ticker }) {
 	const [ChartData, setChartData] = useState([]);
-	const [ChartType, setChartType] = useState([]);
+	const [ChartType, setChartType] = useState("TIME_SERIES_INTRADAY");
 
 	useEffect(() => {
 		axios
