@@ -132,6 +132,8 @@ export default function Search({ setStockResults }) {
 				);
 			}
 		} else {
+			// close mic
+			globalMic = false;
 			queryResults.map((stock, index) => {
 				data_arr.push(
 					<div key={index} className="text-white">
