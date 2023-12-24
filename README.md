@@ -1,4 +1,3 @@
- **Here's a comprehensive README.md for Speak Stocks:**
 
 # Speak Stocks 
 
