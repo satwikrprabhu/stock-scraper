@@ -21,9 +21,8 @@ Speak Stocks is a voice-powered stock exploration and prediction website built w
 
 ## Tech Stack
 
-- Frontend: Next.js, Tailwind CSS
-- Data Fetching: Cheerio (for scraping), Alpha Vantage API
-- Charting: Apex Charts
+- Frontend: Next.js, Tailwind CSS, Flask
+- Data Fetching: Cheerio (for scraping), Alpha Vantage API for charts
 - Prediction: AI model (implementation details to be added)
 
 ## Installation Steps
@@ -72,11 +71,3 @@ pnpm dev
 
 - This project utilizes `next/font` for optimized font loading.
 - Replace any placeholder API keys or environment variables with your own.
-
-## Contributing
-
-Contributions are welcome! Please follow the contributing guidelines.
-
-## License
-
-This project is licensed under the MIT License.
