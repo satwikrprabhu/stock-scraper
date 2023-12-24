@@ -12,7 +12,7 @@ const StockDisplay = ({stock}) => {
 
   useEffect(() => {
     axios
-      .post("/api/prediction", { ticker: stock.Ticker })
+      .post("https://stock-prediction-api-nmuv.onrender.com", { ticker: stock.Ticker })
       .then((res) => {
         console.log(res.data.data);
         setPrediction(res.data.data);
